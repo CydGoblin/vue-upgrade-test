@@ -23,6 +23,7 @@
 
                 <!-- Input-->
                 <v-list two-line subheader>
+                  <v-subheader class="headline">{{day}}, {{date}}{{ord}} {{year}}</v-subheader>
                   <p class="mx-12 mt-5 text-right"><b>{{ todos.length }}</b> Tasks</p>
                   <TodoInput :todoExists="todoExists" @addTodo="addTodo"/>
                 </v-list>
@@ -46,60 +47,42 @@
   </v-app>
 </template>
 
-<script>
+<script setup>
 import ListItem from "./components/ListItem.vue"
 import TodoInput from "./components/TodoInput.vue"
 
-export default {
-  name: 'App',
+import {computed, ref} from "vue";
+import {useDate} from "@/composables/date";
 
-  components: {
-    ListItem,
-    TodoInput
-  },
+const {day, date, ord, year} = useDate()
 
-  data() {
-    return {
-      isDark: true,
-      show: true,
-      todos: [],
-      isTodoExist: false
-    };
-  },
+const isDark = ref(true)
+const todos = ref([])
+const isTodoExist = ref(false)
 
-  computed: {
-    todoExists() {
-      return this.isTodoExist
-          ? "todo is already in the list, add another one"
-          : "";
-    }
-  },
+const todoExists = computed(() => {
+  return isTodoExist.value ? "todo is already in the list, add another one" : "";
+})
 
-  methods: {
-    addTodo(newTodo) {
-      this.isTodoExist = false;
-      const value = newTodo && newTodo.trim();
-      if (!value) {
-        return;
-      }
-      const isTodoExists = this.todos.find((todo) => todo.title === value);
-      if (!isTodoExists) {
-        this.todos.push({
-          title: newTodo,
-          done: false
-        });
-        newTodo = "";
-      }
-      if (isTodoExists) {
-        this.isTodoExist = true;
-      }
-    },
+function addTodo(newTodo) {
+  isTodoExist.value = false;
+  const value = newTodo && newTodo.trim();
+  if (!value) {
+    return;
+  }
+  const isTodoExists = todos.value.find((todo) => todo.title === value);
+  if (!isTodoExists) {
+    todos.value.push({
+      title: newTodo,
+      done: false
+    });
+  }
+  if (isTodoExists) {
+    isTodoExist.value = true;
+  }
+}
 
-    removeTodo(index) {
-      this.todos.splice(index, 1);
-    },
-
-  },
-
-};
+function removeTodo(index) {
+  todos.value.splice(index, 1);
+}
 </script>

@@ -26,6 +26,7 @@ const newTodo = ref("")
 
 function addTodo() {
   emit('addTodo', newTodo.value)
+  newTodo.value = ""
 }
 
 </script>
