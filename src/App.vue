@@ -12,7 +12,7 @@
                   <v-tooltip bottom>
                     <template v-slot:activator="{ on }">
                       <v-btn icon @click="isDark = !isDark" v-on="on">
-                        <v-icon v-model="isDark">{{ !isDark ? 'mdi-weather-night' : 'mdi-weather-cloudy' }}</v-icon>
+                        <v-icon v-model="isDark">{{ !isDark ? 'mdi-weather-night' : 'mdi-weather-sunny' }}</v-icon>
                       </v-btn>
                     </template>
                     <span>

@@ -16,24 +16,18 @@
   </v-list-item>
 </template>
 
-<script>
-export default {
-  name: "TodoInput",
+<script setup>
+import {defineProps, ref, defineEmits} from "vue"
 
-  props: ["todoExists"],
+defineProps(["todoExists"])
+const emit = defineEmits(["addTodo"])
 
-  data() {
-    return {
-      newTodo: ""
-    }
-  },
+const newTodo = ref("")
 
-  methods: {
-    addTodo: function () {
-      this.$emit('addTodo', this.newTodo)
-    }
-  }
+function addTodo() {
+  emit('addTodo', newTodo.value)
 }
+
 </script>
 
 <style scoped>
